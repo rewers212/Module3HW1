@@ -11,13 +11,15 @@ namespace Module3HW1
     {
         private const int DefaultCapacity = 4;
         private T[] _items;
-        private int _size;
+        private int _indexItem;
         private static readonly T[] _emptyArray = new T[0];
 
         public NewList()
         {
             _items = _emptyArray;
         }
+
+        public int Count => _indexItem;
 
         public int Capacity
         {
@@ -29,9 +31,9 @@ namespace Module3HW1
                     if (value > 0)
                     {
                         var newItems = new T[value];
-                        if (_size > 0)
+                        if (_indexItem > 0)
                         {
-                            Array.Copy(_items, newItems, _size);
+                            Array.Copy(_items, newItems, _indexItem);
                         }
 
                         _items = newItems;
@@ -45,7 +47,7 @@ namespace Module3HW1
         }
 
         public void AddRange(IEnumerable<T> collection)
-            => InsertRange(_size, collection);
+            => InsertRange(_indexItem, collection);
 
         public IEnumerator<T> GetEnumerator()
         {
@@ -58,11 +60,11 @@ namespace Module3HW1
         public void Add(T item)
         {
             var mass = _items;
-            var size = _size;
-            if (size < mass.Length)
+            var indexItem = _indexItem;
+            if (indexItem < mass.Length)
             {
-                _size = size + 1;
-                mass[size] = item;
+                _indexItem = indexItem + 1;
+                mass[indexItem] = item;
             }
             else
             {
@@ -72,10 +74,10 @@ namespace Module3HW1
 
         public void AddWithResize(T item)
         {
-            var size = _size;
-            EnsureCapacity(size + 1);
-            _size = size + 1;
-            _items[size] = item;
+            var indexItem = _indexItem;
+            EnsureCapacity(indexItem + 1);
+            _indexItem = indexItem + 1;
+            _items[indexItem] = item;
         }
 
         public void InsertRange(int index, IEnumerable<T> collection)
@@ -85,23 +87,23 @@ namespace Module3HW1
                 var count = c.Count;
                 if (count > 0)
                 {
-                    EnsureCapacity(_size + count);
-                    if (index < _size)
+                    EnsureCapacity(_indexItem + count);
+                    if (index < _indexItem)
                     {
-                        Array.Copy(_items, index, _items, index + count, _size - index);
+                        Array.Copy(_items, index, _items, index + count, _indexItem - index);
                     }
 
                     if (this == c)
                     {
                         Array.Copy(_items, 0, _items, index, index);
-                        Array.Copy(_items, index + count, _items, index * 2, _size - index);
+                        Array.Copy(_items, index + count, _items, index * 2, _indexItem - index);
                     }
                     else
                     {
                         c.CopyTo(_items, index);
                     }
 
-                    _size += count;
+                    _indexItem += count;
                 }
             }
             else
@@ -118,18 +120,18 @@ namespace Module3HW1
 
         public void Insert(int index, T item)
         {
-            if (_size == _items.Length)
+            if (_indexItem == _items.Length)
             {
-                EnsureCapacity(_size + 1);
+                EnsureCapacity(_indexItem + 1);
             }
 
-            if (index < _size)
+            if (index < _indexItem)
             {
-                Array.Copy(_items, index, _items, index + 1, _size - index);
+                Array.Copy(_items, index, _items, index + 1, _indexItem - index);
             }
 
             _items[index] = item;
-            _size++;
+            _indexItem++;
         }
 
         public bool Remove(T item)
@@ -146,25 +148,42 @@ namespace Module3HW1
 
         public void RemoveAt(int index)
         {
-            if (index < _size)
+            if (index < _indexItem)
             {
-                Array.Copy(_items, index + 1, _items, index, _size - index);
+                Array.Copy(_items, index + 1, _items, index, _indexItem - index);
             }
 
             if (RuntimeHelpers.IsReferenceOrContainsReferences<T>())
             {
-                _items[_size] = default;
+                _items[_indexItem] = default;
             }
 
-            _size--;
+            _indexItem--;
         }
 
         public void Sort()
         {
+            Array.Sort(_items, new ItemComparer());
         }
 
         public int IndexOf(T item)
-            => Array.IndexOf(_items, item, 0, _size);
+            => Array.IndexOf(_items, item, 0, _indexItem);
+
+        private int SortArray(int index, int count, IComparer<T> comparer)
+        {
+            if (index < 0)
+            {
+                return -1;
+            }
+            else if (index > 0)
+            {
+                return 1;
+            }
+            else
+            {
+                return 0;
+            }
+        }
 
         private void EnsureCapacity(int min)
         {
