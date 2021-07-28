@@ -163,27 +163,11 @@ namespace Module3HW1
 
         public void Sort()
         {
-            Array.Sort(_items, new ItemComparer());
+            Array.Sort(_items, new ItemComparer<T>());
         }
 
         public int IndexOf(T item)
             => Array.IndexOf(_items, item, 0, _indexItem);
-
-        private int SortArray(int index, int count, IComparer<T> comparer)
-        {
-            if (index < 0)
-            {
-                return -1;
-            }
-            else if (index > 0)
-            {
-                return 1;
-            }
-            else
-            {
-                return 0;
-            }
-        }
 
         private void EnsureCapacity(int min)
         {

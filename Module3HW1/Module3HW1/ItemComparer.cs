@@ -14,7 +14,7 @@ namespace Module3HW1
     {
         if (x.Count > y.Count)
         {
-            return -1;
+            return 1;
         }
         else if (x.Count < y.Count)
         {
