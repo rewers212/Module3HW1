@@ -25,6 +25,7 @@ namespace Module3HW1
             test.Add(22);
             test.Remove(0);
             test.AddRange(new int[] { 36, 37, 38, 39, 40, 41 });
+            test.Sort();
             foreach (var item in test)
             {
                 Console.WriteLine(item);

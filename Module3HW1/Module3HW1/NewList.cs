@@ -162,8 +162,15 @@ namespace Module3HW1
         }
 
         public void Sort()
+         => Sort(0, Count, null);
+        public void Sort(IComparer<T> comparer)
         {
-            Array.Sort(_items, new ItemComparer<T>());
+            Sort(0, Count, comparer);
+        }
+
+        public void Sort(int index, int count, IComparer<T> comparer)
+        {
+            Array.Sort<T>(_items, index, count, comparer);
         }
 
         public int IndexOf(T item)
