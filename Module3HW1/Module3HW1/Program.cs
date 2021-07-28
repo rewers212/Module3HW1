@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq.Expressions;
 
 namespace Module3HW1
 {
@@ -23,7 +24,7 @@ namespace Module3HW1
             test.Add(0);
             test.Add(22);
             test.Remove(0);
-            test.RemoveAt(55);
+            test.AddRange(new int[] { 36, 37, 38, 39, 40, 41 });
             foreach (var item in test)
             {
                 Console.WriteLine(item);
