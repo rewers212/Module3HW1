@@ -30,6 +30,17 @@ namespace Module3HW1
             {
                 Console.WriteLine(item);
             }
+
+            test.Add(88);
+            test.Add(89);
+            test.Add(90);
+            test.Remove(88);
+            test.Remove(40);
+            test.Remove(36);
+            foreach (var item in test)
+            {
+                Console.WriteLine(item);
+            }
         }
     }
 }

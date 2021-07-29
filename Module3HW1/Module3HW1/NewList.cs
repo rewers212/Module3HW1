@@ -51,9 +51,9 @@ namespace Module3HW1
 
         public IEnumerator<T> GetEnumerator()
         {
-            foreach (var item in _items)
+            for (var i = 0; i < _indexItem; i++)
             {
-                yield return item;
+                yield return _items[i];
             }
         }
 
@@ -153,9 +153,13 @@ namespace Module3HW1
                 Array.Copy(_items, index + 1, _items, index, _indexItem - index);
             }
 
-            if (RuntimeHelpers.IsReferenceOrContainsReferences<T>())
+            if (_indexItem < Capacity / 2)
             {
-                _items[_indexItem] = default;
+                var a = Capacity / 2;
+                var mass = new T[a];
+                Array.Copy(_items, mass, a);
+                _items = new T[a];
+                Array.Copy(mass, _items, a);
             }
 
             _indexItem--;
